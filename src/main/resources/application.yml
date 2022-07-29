@@ -1,0 +1,5 @@
+#AES加密密钥长度为16位
+body:
+  encrypt:
+    key: aesencryptxcoder
+
