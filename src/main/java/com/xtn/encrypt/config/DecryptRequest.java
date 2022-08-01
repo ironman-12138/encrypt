@@ -1,8 +1,9 @@
 package com.xtn.encrypt.config;
 
 import com.xtn.encrypt.annotation.Decrypt;
-import com.xtn.encrypt.annotation.Encrypt;
-import com.xtn.encrypt.utils.AESUtil;
+import com.xtn.encrypt.utils.AesUtil;
+import com.xtn.encrypt.utils.RsaUtil;
+import com.xtn.encrypt.utils.StringUtil;
 import org.springframework.boot.context.properties.EnableConfigurationProperties;
 import org.springframework.core.MethodParameter;
 import org.springframework.http.HttpHeaders;
@@ -16,6 +17,7 @@ import java.io.ByteArrayInputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.lang.reflect.Type;
+import java.util.Base64;
 
 /**
  * 对传参数据解密处理
@@ -57,11 +59,13 @@ public class DecryptRequest extends RequestBodyAdviceAdapter {
         try {
             switch (encryptEnum) {
                 case AES:
-                    //获取密钥的字节
-                    byte[] keyByte = encryptProperties.getKey().getBytes();
-                    decrypt = AESUtil.decrypt(body, keyByte);
+                    //获取密钥
+                    String key = encryptProperties.getKey();
+                    decrypt = AesUtil.decrypt(body, key.getBytes());
                     break;
                 case RSA:
+                    String privateKey = encryptProperties.getPrivateKey();
+                    decrypt = RsaUtil.decrypt(privateKey, body).getBytes();
                     break;
             }
         } catch (Exception e) {

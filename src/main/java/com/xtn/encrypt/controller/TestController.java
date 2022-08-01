@@ -7,6 +7,7 @@ import com.xtn.encrypt.config.EncryptEnum;
 import com.xtn.encrypt.utils.result.Result;
 import com.xtn.encrypt.utils.result.ResultUtil;
 import com.xtn.encrypt.vo.DataMark;
+import com.xtn.encrypt.vo.TestSignVo;
 import com.xtn.encrypt.vo.TestVo;
 import org.springframework.web.bind.annotation.*;
 
@@ -41,18 +42,27 @@ public class TestController {
         return ResultUtil.ok(list);
     }
 
-    @Encrypt
+    @Encrypt(encryptType = EncryptEnum.RSA)
     @GetMapping("encrypt")
     public Result<TestVo> encrypt(){
         TestVo testVo = new TestVo();
         testVo.setName("xxx");
+        testVo.setTimestamp("11111123333");
         return ResultUtil.ok(testVo);
     }
 
-    @CheckSign
     @GetMapping("decrypt")
-    public Result<String> decrypt(@RequestBody TestVo vo){
+    public Result<String> decrypt(@RequestBody @Decrypt(encryptType = EncryptEnum.RSA) TestVo vo){
         System.out.println(vo.getName());
+        System.out.println(vo.getTimestamp());
+        return ResultUtil.ok();
+    }
+
+    @CheckSign
+    @GetMapping("checkSign")
+    public Result<String> checkSign(@RequestBody TestSignVo vo){
+        System.out.println(vo.getName());
+        System.out.println(vo.getTimestamp());
         return ResultUtil.ok();
     }
 

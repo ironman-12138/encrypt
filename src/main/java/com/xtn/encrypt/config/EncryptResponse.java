@@ -2,7 +2,8 @@ package com.xtn.encrypt.config;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.xtn.encrypt.annotation.Encrypt;
-import com.xtn.encrypt.utils.AESUtil;
+import com.xtn.encrypt.utils.AesUtil;
+import com.xtn.encrypt.utils.RsaUtil;
 import com.xtn.encrypt.utils.result.Result;
 import org.springframework.boot.context.properties.EnableConfigurationProperties;
 import org.springframework.core.MethodParameter;
@@ -10,6 +11,7 @@ import org.springframework.http.MediaType;
 import org.springframework.http.converter.HttpMessageConverter;
 import org.springframework.http.server.ServerHttpRequest;
 import org.springframework.http.server.ServerHttpResponse;
+import org.springframework.util.StringUtils;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.servlet.mvc.method.annotation.ResponseBodyAdvice;
 
@@ -52,11 +54,13 @@ public class EncryptResponse implements ResponseBodyAdvice<Result> {
         try {
             switch (encryptEnum) {
                 case AES:
-                    //获取加密key的字节
-                    byte[] keyBytes = encryptProperties.getKey().getBytes();
-                    data = AESUtil.encrypt(objectMapper.writeValueAsBytes(r.getData()), keyBytes);
+                    //获取加密key
+                    String key = encryptProperties.getKey();
+                    data = AesUtil.encrypt(objectMapper.writeValueAsBytes(r.getData()), key.getBytes());
                     break;
                 case RSA:
+                    String publicKey = encryptProperties.getPublicKey();
+                    data = RsaUtil.encrypt(publicKey, objectMapper.writeValueAsBytes(r.getData()));
                     break;
             }
 

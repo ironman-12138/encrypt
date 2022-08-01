@@ -1,5 +1,8 @@
 package com.xtn.encrypt.utils;
 
+
+import lombok.extern.slf4j.Slf4j;
+
 import javax.crypto.BadPaddingException;
 import javax.crypto.Cipher;
 import javax.crypto.IllegalBlockSizeException;
@@ -10,10 +13,11 @@ import java.security.NoSuchAlgorithmException;
 import java.util.Base64;
 
 /**
- * AES加密工具类
- * @author xCoder
+ * AES工具类
  */
-public class AESUtil {
+@Slf4j
+public class AesUtil {
+
     private final static String AES="AES";
     private static final String AES_ALGORITHM = "AES/ECB/PKCS5Padding";
 
@@ -43,7 +47,4 @@ public class AESUtil {
         Cipher cipher = getCipher(key, Cipher.DECRYPT_MODE);
         return cipher.doFinal(Base64.getDecoder().decode(data));
     }
-
-
 }
-

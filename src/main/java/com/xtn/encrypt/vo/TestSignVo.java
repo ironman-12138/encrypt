@@ -6,10 +6,12 @@ import lombok.Data;
  * @author xCoder
  */
 @Data
-public class TestVo {
+public class TestSignVo {
 
     private String name;
 
     private String timestamp;
+
+    private String sign;
 
 }

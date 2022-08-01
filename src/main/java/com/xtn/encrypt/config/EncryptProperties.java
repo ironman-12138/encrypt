@@ -7,4 +7,6 @@ import org.springframework.boot.context.properties.ConfigurationProperties;
 @Data
 public class EncryptProperties {
     private String key;
+    private String publicKey;
+    private String privateKey;
 }
