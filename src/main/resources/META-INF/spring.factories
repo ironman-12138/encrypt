@@ -1,0 +1,7 @@
+org.springframework.boot.autoconfigure.EnableAutoConfiguration=\
+com.xtn.encrypt.config.dataMasking.DataMaskingAnnotationIntrospector,\
+com.xtn.encrypt.config.dataMasking.DataMaskingSerializer,\
+com.xtn.encrypt.config.dataMasking.DataMaskConfiguration,\
+com.xtn.encrypt.config.DecryptRequest,\
+com.xtn.encrypt.config.EncryptResponse,\
+com.xtn.encrypt.config.CheckSignAspect
